@@ -1,29 +1,23 @@
 # Neon Snake
 
-A lightweight Snake game that runs entirely in the browser. It has no ads, no analytics, no external assets, and no network requests.
+A responsive arcade snake game that works directly in a browser.
 
-## Run During Development
+## Play
 
-```bash
-npm install
-npm run dev
-```
+**Live game:** https://rajeshwar01-01.github.io/Snake-game/
 
-Open the local address shown by Vite. The development server is only needed while developing the game.
-
-## Build For Offline Use
-
-```bash
-npm run build
-```
-
-The build creates `dist/index.html`. The Vite single-file plugin inlines the JavaScript and CSS, so the file can be copied to another computer and opened directly in a modern browser without internet access or a server.
+Open `index.html` locally or visit the live game. No installation, account, external assets, or build step is required.
 
 ## Controls
 
-- Arrow keys or W/A/S/D: steer the snake
-- Swipe inside the board: steer on touch screens
-- Spacebar or Escape: pause and resume
-- Sound button: mute or unmute generated sound effects
+- Arrow keys or W/A/S/D: steer
+- Space: start, pause, or resume
+- Swipe on the board: steer on touch screens
+- Choose easy, medium, or hard difficulty
+- Select the sound status text to toggle generated sound effects
 
-Scores are saved in the browser's local storage under `neon-snake-high-score`. Sound preference is saved under `neon-snake-sound`. No game data leaves the device.
+Your high score and sound preference are saved locally in this browser. No gameplay data is sent to a server.
+
+## Rebuild notes
+
+The original React prototype is retained in the repository. The standalone `index.html` is the published browser version so GitHub Pages can serve the game without a build service.
