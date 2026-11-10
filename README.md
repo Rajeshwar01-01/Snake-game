@@ -1,6 +1,6 @@
-# Neon Snake
+# SnackByte
 
-A responsive arcade snake game that works directly in a browser.
+A playful, responsive arcade snake game that works directly in a browser.
 
 ## Play
 
