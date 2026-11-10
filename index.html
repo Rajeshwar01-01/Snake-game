@@ -1,12 +1,76 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Arena Web Dev App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090813">
+  <meta name="description" content="Play Neon Snake: a fast, colorful snake game with keyboard and touch controls.">
+  <title>Neon Snake — Arcade Game</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090813;--panel:#141322;--line:#29263f;--text:#f7f5ff;--muted:#a5a1ba;--violet:#a78bfa;--mint:#60f2bd;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}body{min-height:100vh;margin:0;color:var(--text);background:radial-gradient(ellipse at 72% 8%,#262049 0,transparent 42%),radial-gradient(ellipse at 0 90%,#102b2e 0,transparent 35%),var(--bg)}
+    button,select{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,select:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}
+    .app{max-width:1120px;margin:auto;padding:28px 22px 36px}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.mark{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,#c4b5fd,#7c3aed);color:#100d20;font-weight:900;font-size:23px;box-shadow:0 8px 25px #8b5cf640}.brand h1{margin:0;font-size:18px;letter-spacing:.02em}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.top-label{color:#c2bbdf;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+    .layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);gap:17px;align-items:start}.stage,.panel{border:1px solid var(--line);border-radius:20px;background:rgba(18,17,30,.86);box-shadow:0 24px 70px #0005;backdrop-filter:blur(14px)}.stage{padding:14px}.stage-head{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 12px}.stage-head strong{font-size:13px}.pill{border:1px solid #344039;border-radius:99px;padding:5px 9px;color:#8bf2c7;font-size:10px;letter-spacing:.08em;text-transform:uppercase}.canvas-wrap{position:relative;overflow:hidden;border:1px solid #342f4b;border-radius:14px;background:#0a0d14}.canvas-wrap:after{position:absolute;inset:0;border-radius:14px;box-shadow:inset 0 0 60px #080812;content:"";pointer-events:none}.canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:none}
+    .stage-foot{display:flex;justify-content:space-between;gap:10px;padding:12px 4px 1px;color:var(--muted);font-size:11px}.panel{padding:19px}.panel h2{margin:0;font-size:15px}.panel p{color:var(--muted);font-size:12px;line-height:1.6}.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}.score{border:1px solid #2b2940;border-radius:13px;background:#0d0c17;padding:12px}.score strong{display:block;font-size:22px;font-variant-numeric:tabular-nums}.score span{color:var(--muted);font-size:10px}.field{display:grid;gap:6px;margin:14px 0}.field label{color:#c9c5d5;font-size:11px}.field select{width:100%;height:40px;border:1px solid var(--line);border-radius:10px;background:#0d0c17;color:var(--text);padding:0 10px}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.btn{min-height:42px;border:1px solid var(--line);border-radius:11px;padding:0 13px;background:#211d35;font-weight:700}.btn:hover{background:#2d2650}.btn.primary{border:0;background:linear-gradient(135deg,#a78bfa,#7c3aed);box-shadow:0 8px 24px #7c3aed40}.btn.primary:hover{filter:brightness(1.09)}.btn:disabled{cursor:not-allowed;opacity:.5}.controls{margin:17px 0 0;padding:14px 0 0;border-top:1px solid var(--line)}.controls h3{margin:0 0 9px;font-size:11px;color:#c7c2d5;text-transform:uppercase;letter-spacing:.09em}.key-row{display:flex;align-items:center;justify-content:space-between;margin:7px 0;color:var(--muted);font-size:11px}.keys{display:flex;gap:4px}.key{min-width:23px;padding:4px 6px;border:1px solid #39354d;border-radius:6px;background:#100f1b;color:#eee9ff;text-align:center;font-size:10px}.message{min-height:18px;margin:13px 0 0;color:#c5bbeb;font-size:11px}.footer{padding-top:16px;color:#77738a;text-align:center;font-size:10px}
+    @media(max-width:800px){.layout{grid-template-columns:1fr}.panel{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}.panel>h2,.panel>p,.score-grid,.field,.buttons,.message{grid-column:1/-1}.controls{grid-column:1/-1}.top-label{display:none}}
+    @media(max-width:520px){.app{padding:17px 12px 24px}.panel{display:block;padding:15px}.stage{padding:9px}.stage-foot{font-size:9px}.brand h1{font-size:16px}.topbar{margin-bottom:15px}.stage-head{padding-bottom:9px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar"><div class="brand"><div class="mark" aria-hidden="true">N</div><div><h1>NEON SNAKE</h1><p>One more run. One more high score.</p></div></div><div class="top-label">Arcade / 01</div></header>
+    <section class="layout">
+      <div class="stage">
+        <div class="stage-head"><strong>Arcade grid</strong><span class="pill" id="statePill">Ready</span></div>
+        <div class="canvas-wrap"><canvas id="board" width="624" height="432" aria-label="Snake game board. Use arrow keys or W A S D to steer."></canvas></div>
+        <div class="stage-foot"><span id="gameMessage" role="status" aria-live="polite">Choose a difficulty, then start your run.</span><span>Best: <strong id="bestScore">0</strong></span></div>
+      </div>
+      <aside class="panel">
+        <h2>Run stats</h2><p>Collect glowing food to grow. Avoid the walls and your own tail.</p>
+        <div class="score-grid"><div class="score"><strong id="score">0</strong><span>Current score</span></div><div class="score"><strong id="length">3</strong><span>Snake length</span></div></div>
+        <div class="field"><label for="difficulty">Difficulty</label><select id="difficulty"><option value="easy">Easy · relaxed</option><option value="medium" selected>Medium · classic</option><option value="hard">Hard · quick</option></select></div>
+        <div class="buttons"><button class="btn primary" id="startBtn" type="button">Start game</button><button class="btn" id="pauseBtn" type="button" disabled>Pause</button></div>
+        <div class="controls"><h3>Controls</h3><div class="key-row"><span>Steer</span><span class="keys"><span class="key">↑</span><span class="key">←</span><span class="key">↓</span><span class="key">→</span></span></div><div class="key-row"><span>Or move</span><span class="keys"><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span></span></div><div class="key-row"><span>Pause / resume</span><span class="key">Space</span></div><div class="key-row"><span>Touch screens</span><span>Swipe on board</span></div></div>
+        <p class="message" id="soundLabel">Sound is off</p>
+      </aside>
+    </section>
+    <footer class="footer">Runs in your browser. No account, ads, or tracking.</footer>
+  </main>
+  <script>
+    (() => {
+      "use strict";
+      const canvas=document.getElementById("board"),ctx=canvas.getContext("2d");
+      const cols=26,rows=18,cell=24,baseSpeed={easy:170,medium:125,hard:88};
+      const colors={background:"#0a0d14",grid:"#171a27",snake:"#6ef2bd",head:"#c5ffe8",food:"#ff6d9d",bonus:"#b59aff"};
+      let snake=[],food=null,direction={x:1,y:0},nextDirection={x:1,y:0},score=0,state="ready",timer=null,soundOn=false,high=0;
+      try{high=Number(localStorage.getItem("neon-snake-high-score"))||0;soundOn=localStorage.getItem("neon-snake-sound")==="on"}catch(_){}
+      const $=id=>document.getElementById(id);
+      $("soundLabel").textContent=soundOn?"Sound is on":"Sound is off";
+      $("soundLabel").style.cursor="pointer";$("soundLabel").tabIndex=0;$("soundLabel").setAttribute("role","button");$("soundLabel").setAttribute("aria-label","Toggle sound");
+      function setMessage(msg){$("gameMessage").textContent=msg}
+      function updateHud(){$("score").textContent=score;$("length").textContent=snake.length;$("bestScore").textContent=high;$("statePill").textContent=state==="playing"?"In motion":state==="paused"?"Paused":state==="over"?"Run over":"Ready";$("pauseBtn").disabled=state==="ready"||state==="over";$("pauseBtn").textContent=state==="paused"?"Resume":"Pause";$("startBtn").textContent=state==="over"?"Run again":state==="playing"||state==="paused"?"Restart":"Start game"}
+      function placeFood(){let p;do{p={x:Math.floor(Math.random()*cols),y:Math.floor(Math.random()*rows)}}while(snake.some(s=>s.x===p.x&&s.y===p.y));food=p}
+      function reset(){snake=[{x:7,y:9},{x:6,y:9},{x:5,y:9}];direction={x:1,y:0};nextDirection={x:1,y:0};score=0;placeFood();updateHud();draw()}
+      function start(){clearInterval(timer);reset();state="playing";updateHud();setMessage("Go! Eat the glowing fruit.");tickLoop()}
+      function tickLoop(){clearInterval(timer);const base=baseSpeed[$("difficulty").value]||125;timer=setInterval(tick,Math.max(62,base-Math.floor(score/60)*4))}
+      function end(){clearInterval(timer);timer=null;state="over";if(score>high){high=score;try{localStorage.setItem("neon-snake-high-score",String(high))}catch(_){}}updateHud();setMessage("Game over. Press Run again for another round.");draw()}
+      function tick(){if(state!=="playing")return;direction=nextDirection;const head={x:snake[0].x+direction.x,y:snake[0].y+direction.y};const ate=head.x===food.x&&head.y===food.y;const body=ate?snake:snake.slice(0,-1);if(head.x<0||head.x>=cols||head.y<0||head.y>=rows||body.some(s=>s.x===head.x&&s.y===head.y)){end();return}snake.unshift(head);if(ate){score+=10;beep();placeFood();tickLoop()}else snake.pop();updateHud();draw()}
+      function rounded(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+      function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle=colors.background;ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle=colors.grid;ctx.lineWidth=1;for(let x=0;x<=cols;x++){ctx.beginPath();ctx.moveTo(x*cell+.5,0);ctx.lineTo(x*cell+.5,canvas.height);ctx.stroke()}for(let y=0;y<=rows;y++){ctx.beginPath();ctx.moveTo(0,y*cell+.5);ctx.lineTo(canvas.width,y*cell+.5);ctx.stroke()}
+        if(food){ctx.shadowColor=colors.food;ctx.shadowBlur=18;ctx.fillStyle=colors.food;rounded(food.x*cell+5,food.y*cell+5,cell-10,cell-10,8);ctx.shadowBlur=0}
+        snake.forEach((p,i)=>{ctx.shadowColor=i===0?colors.snake:"transparent";ctx.shadowBlur=i===0?16:0;ctx.fillStyle=i===0?colors.head:colors.snake;rounded(p.x*cell+2,p.y*cell+2,cell-4,cell-4,7)});ctx.shadowBlur=0;
+        if(state!=="playing"){ctx.fillStyle="rgba(5,6,12,.68)";ctx.fillRect(0,0,canvas.width,canvas.height);ctx.textAlign="center";ctx.fillStyle="#f8f5ff";ctx.font="700 28px system-ui";ctx.fillText(state==="paused"?"PAUSED":state==="over"?"RUN OVER":"NEON SNAKE",canvas.width/2,canvas.height/2-8);ctx.fillStyle="#bcb6d0";ctx.font="14px system-ui";ctx.fillText(state==="over"?"Start a new run when you're ready":"Press Start game to play",canvas.width/2,canvas.height/2+22)}}
+      function pause(){if(state==="playing"){clearInterval(timer);timer=null;state="paused";setMessage("Paused. Take a breath.");updateHud();draw()}else if(state==="paused"){state="playing";setMessage("Back in motion.");updateHud();tickLoop();draw()}}
+      function setDirection(x,y){if(x===-direction.x&&y===-direction.y)return;nextDirection={x,y}}
+      function keydown(e){if(e.target&&e.target.closest("button,select,input,textarea"))return;if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))e.preventDefault();if(e.key===" "){if(state==="playing"||state==="paused")pause();else if(state==="ready"||state==="over")start();return}const k=e.key.toLowerCase();if(k==="arrowup"||k==="w")setDirection(0,-1);if(k==="arrowdown"||k==="s")setDirection(0,1);if(k==="arrowleft"||k==="a")setDirection(-1,0);if(k==="arrowright"||k==="d")setDirection(1,0)}
+      function beep(){if(!soundOn)return;try{const ac=new AudioContext(),o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.setValueAtTime(680,ac.currentTime);o.frequency.exponentialRampToValueAtTime(980,ac.currentTime+.09);g.gain.setValueAtTime(.08,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.13);o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+.14);o.onended=()=>ac.close()}catch(_){}}
+      function toggleSound(){soundOn=!soundOn;try{localStorage.setItem("neon-snake-sound",soundOn?"on":"off")}catch(_){}$("soundLabel").textContent=soundOn?"Sound is on":"Sound is off"}
+      let touchStart=null;canvas.addEventListener("pointerdown",e=>{touchStart={x:e.clientX,y:e.clientY}});canvas.addEventListener("pointerup",e=>{if(!touchStart)return;const dx=e.clientX-touchStart.x,dy=e.clientY-touchStart.y;touchStart=null;if(Math.max(Math.abs(dx),Math.abs(dy))<18)return;if(Math.abs(dx)>Math.abs(dy))setDirection(dx>0?1:-1,0);else setDirection(0,dy>0?1:-1)});
+      $("startBtn").addEventListener("click",start);$("pauseBtn").addEventListener("click",pause);$("difficulty").addEventListener("change",()=>{if(state==="playing")tickLoop()});$("soundLabel").addEventListener("click",toggleSound);$("soundLabel").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggleSound()}});document.addEventListener("keydown",keydown);document.addEventListener("visibilitychange",()=>{if(document.hidden&&state==="playing")pause()});
+      reset();state="ready";updateHud();draw();
+    })();
+  </script>
+</body>
 </html>
